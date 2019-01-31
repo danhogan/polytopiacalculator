@@ -16,6 +16,34 @@
 	<title>Polytopia Battle Calculator</title>
 
 <style>
+.dselect {
+  height: calc(4em + 2px);
+  overflow-x: scroll;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+@media (pointer: fine) {
+  .dselect {
+    padding-bottom: 17px;
+  }
+}
+.dselect > img {
+  height: 4em;
+  display: inline-block;
+  margin-top: 1px;
+}
+img.selected {
+  outline: 1px solid blue;
+  background: cyan;
+}
+#selectdefender > img.selected {
+  outline-color: red;
+  background: pink;
+}
+.dselect:focus {
+  outline: none;
+}
+
 h2
 {
 	display: inline;
@@ -645,9 +673,26 @@ function clearform()
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
 	tapcounter = 0;
 }
+function clickImage() {
+  this.classList.add("selected");
+  var tmp = this.previousElementSibling;
+  while(tmp) { tmp.classList.remove("selected"); tmp = tmp.previousElementSibling; }
+  tmp = this.nextElementSibling;
+  while(tmp) { tmp.classList.remove("selected"); tmp = tmp.nextElementSibling; }
+  this.parentElement.value = this.getAttribute("alt");
+}
+
 function attackerfill()
 {
+  clickImage.bind(this)();
+  
 	var getattacker = document.getElementById("selectattacker").value;
+
+  var attackHints = document.querySelectorAll("span.attackhint");
+  for(var i in attackHints) {
+    attackHints[i].innerText = " (" + getattacker + ")";
+  }
+  
 	switch (getattacker)
 	{
 		case "Warrior":
@@ -761,7 +806,15 @@ function attackerfill()
 }
 function defenderfill()
 {
+  clickImage.bind(this)();
+  
 	var getdefender = document.getElementById("selectdefender").value;
+  
+  var defenseHints = document.querySelectorAll("span.defensehint");
+  for(var i in defenseHints) {
+    defenseHints[i].innerText = " (" + getdefender + ")";
+  }
+  
 	switch (getdefender)
 	{
 		case "Warrior":
@@ -1199,10 +1252,8 @@ function multiswitch()
 		document.getElementById("states").style.display='block';
 		document.getElementById("def1").checked = false;
 		document.getElementById("def2").checked = false;
-		document.getElementById("selectattacker").selectedIndex = 1;
-		attackerfill();
-		document.getElementById("selectdefender").selectedIndex = 1;
-		defenderfill();
+		document.getElementById("selectattacker").firstElementChild.onclick();
+		document.getElementById("selectdefender").firstElementChild.onclick();
 		choosetype();
 		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		tapcounter = 0;
@@ -2013,27 +2064,26 @@ function refreshattackers()
  		<option value="Create Defender">Create Defender
 	</select></p>
 	<div id="attvalues" style="display: inline">
-		<p><select id="selectattacker" class= "mselect" onchange="attackerfill()" tabindex="-1">
-  			<option value="Select Attacker">Select Attacker
- 			<option value="Warrior">Warrior
-		 	<option value="Rider">Rider
-			<option value="Defender">Defender
-			<option value="Swordsman">Swordsman
-			<option value="Archer">Archer
-			<option value="Catapult">Catapult
-			<option value="Knight">Knight
-			<option value="Giant">Giant
-			<option value="Boat">Boat
-			<option value="Ship">Ship
-			<option value="Battleship">Battleship
-			<option value="Amphibian">Amphibian
-			<option value="Crab">Crab
-			<option value="Tridention">Tridention
-			<option value="Polytaur">Polytaur
-			<option value="Navalon">Navalon
-			<option value="Baby Dragon">Baby Dragon
-			<option value="Fire Dragon">Fire Dragon
-		</select>
+		<p><div id="selectattacker" class= "dselect" tabindex="-1">
+  		<img alt="Warrior" title="Warrior" src="Attackers/Warrior.png" onclick="attackerfill.bind(this)()">
+		 	<img alt="Rider" title="Rider" src="Attackers/Rider.png" onclick="attackerfill.bind(this)()">
+			<img alt="Defender" title="Defender" src="Attackers/Defender.png" onclick="attackerfill.bind(this)()">
+			<img alt="Swordsman" title="Swordsman" src="Attackers/Swordsman.png" onclick="attackerfill.bind(this)()">
+			<img alt="Archer" title="Archer" src="Attackers/Archer.png" onclick="attackerfill.bind(this)()">
+			<img alt="Catapult" title="Catapult" src="Attackers/Catapult.png" onclick="attackerfill.bind(this)()">
+			<img alt="Knight" title="Knight" src="Attackers/Knight.png" onclick="attackerfill.bind(this)()">
+			<img alt="Giant" title="Giant" src="Attackers/Giant.png" onclick="attackerfill.bind(this)()">
+			<img alt="Boat" title="Boat" src="Attackers/Boat.png" onclick="attackerfill.bind(this)()">
+			<img alt="Ship" title="Ship" src="Attackers/Ship.png" onclick="attackerfill.bind(this)()">
+			<img alt="Battleship" title="Battleship" src="Attackers/Battleship.png" onclick="attackerfill.bind(this)()">
+			<img alt="Amphibian" title="Amphibian" src="Attackers/Amphibian.png" onclick="attackerfill.bind(this)()">
+			<img alt="Crab" title="Crab" src="Attackers/Crab.png" onclick="attackerfill.bind(this)()">
+			<img alt="Tridention" title="Tridention" src="Attackers/Tridention.png" onclick="attackerfill.bind(this)()">
+			<img alt="Polytaur" title="Polytaur" src="Attackers/Polytaur.png" onclick="attackerfill.bind(this)()">
+			<img alt="Navalon" title="Navalon" src="Attackers/Navalon.png" onclick="attackerfill.bind(this)()">
+			<img alt="Baby Dragon" title="Baby Dragon" src="Attackers/Baby Dragon.png" onclick="attackerfill.bind(this)()">
+			<img alt="Fire Dragon" title="Fire Dragon" src="Attackers/Fire Dragon.png" onclick="attackerfill.bind(this)()">
+		</div>
 
 		<span id="attveterancy" style="display:none"><span class="textpress" onclick="attvettest()">Veteran? </span><input type="checkbox" id="attvetbox" onclick="attackerveteran()"></span>
 	
@@ -2044,7 +2094,7 @@ function refreshattackers()
  			<option value="HP 40">Max HP 40
 		</select></p>
 
-		<p id="attvaluetext">Attacker attack value:</p>
+		<p id="attvaluetext">Attacker attack value<span class="attackhint"></span>:</p>
 		<input type="number" id="attack" class="minput" min="0" step="0.5" required tabindex="1">
 		<p>Attacker current HP:</p>
 		<input type="number" id="attackhp" class="minput" min="1" required tabindex="2">
@@ -2053,30 +2103,29 @@ function refreshattackers()
 	</div>
 
 	<div id="defvalues" style="display: inline;">
-		<p><select id="selectdefender" class= "mselect" onchange="defenderfill()" tabindex="-4">
- 	 		<option value="Select Defender">Select Defender
- 			<option value="Warrior">Warrior
-	 		<option value="Rider">Rider
-			<option value="Defender">Defender
-			<option value="Swordsman">Swordsman
-			<option value="Archer">Archer
-			<option value="Catapult">Catapult
-			<option value="Knight">Knight
-			<option value="Giant">Giant
-			<option value="Boat">Boat
-			<option value="Ship">Ship
-			<option value="Battleship">Battleship
-			<option value="Mind Bender">Mind Bender
-			<option value="Amphibian">Amphibian
-			<option value="Crab">Crab
-			<option value="Tridention">Tridention
-			<option value="Polytaur">Polytaur
-			<option value="Navalon">Navalon
-			<option value="Dragon Egg">Dragon Egg
-			<option value="Baby Dragon">Baby Dragon
-			<option value="Fire Dragon">Fire Dragon
-			<option value="Nature Bunny">Nature Bunny
-		</select>
+		<p><div id="selectdefender" class= "dselect" tabindex="-4">
+ 			<img alt="Warrior" title="Warrior" src="Defenders/Warrior.png" onclick="defenderfill.bind(this)()">
+	 		<img alt="Rider" title="Rider" src="Defenders/Rider.png" onclick="defenderfill.bind(this)()">
+			<img alt="Defender" title="Defender" src="Defenders/Defender.png" onclick="defenderfill.bind(this)()">
+			<img alt="Swordsman" title="Swordsman" src="Defenders/Swordsman.png" onclick="defenderfill.bind(this)()">
+			<img alt="Archer" title="Archer" src="Defenders/Archer.png" onclick="defenderfill.bind(this)()">
+			<img alt="Catapult" title="Catapult" src="Defenders/Catapult.png" onclick="defenderfill.bind(this)()">
+			<img alt="Knight" title="Knight" src="Defenders/Knight.png" onclick="defenderfill.bind(this)()">
+			<img alt="Giant" title="Giant" src="Defenders/Giant.png" onclick="defenderfill.bind(this)()">
+			<img alt="Boat" title="Boat" src="Defenders/Boat.png" onclick="defenderfill.bind(this)()">
+			<img alt="Ship" title="Ship" src="Defenders/Ship.png" onclick="defenderfill.bind(this)()">
+			<img alt="Battleship" title="Battleship" src="Defenders/Battleship.png" onclick="defenderfill.bind(this)()">
+			<img alt="Mind Bender" title="Mind Bender" src="Defenders/Mind Bender.png" onclick="defenderfill.bind(this)()">
+			<img alt="Amphibian" title="Amphibian" src="Defenders/Amphibian.png" onclick="defenderfill.bind(this)()">
+			<img alt="Crab" title="Crab" src="Defenders/Crab.png" onclick="defenderfill.bind(this)()">
+			<img alt="Tridention" title="Tridention" src="Defenders/Tridention.png" onclick="defenderfill.bind(this)()">
+			<img alt="Polytaur" title="Polytaur" src="Defenders/Polytaur.png" onclick="defenderfill.bind(this)()">
+			<img alt="Navalon" title="Navalon" src="Defenders/Navalon.png" onclick="defenderfill.bind(this)()">
+			<img alt="Dragon Egg" title="Dragon Egg" src="Defenders/Dragon Egg.png" onclick="defenderfill.bind(this)()">
+			<img alt="Baby Dragon" title="Baby Dragon" src="Defenders/Baby Dragon.png" onclick="defenderfill.bind(this)()">
+			<img alt="Fire Dragon" title="Fire Dragon" src="Defenders/Fire Dragon.png" onclick="defenderfill.bind(this)()">
+			<img alt="Nature Bunny" title="Nature Bunny" src="Defenders/Nature Bunny.png" onclick="defenderfill.bind(this)()">
+		</div>
 
 		<span id="defveterancy" style="display:none"><span class="textpress" onclick="defvettest()">Veteran? </span><input type="checkbox" id="defvetbox" onclick="defenderveteran()"></span>
 
@@ -2087,7 +2136,7 @@ function refreshattackers()
  			<option value="HP 40">Max HP 40
 		</select></p>
 
-		<p id="defvaluetext">Defender defense value:</p>
+		<p id="defvaluetext">Defender defense value<span class="defensehint"></span>:</p>
 		<input type="number" id="defense" class="minput" min="0" step="0.5" required tabindex="4">
 		<p>Defender current HP:</p>
 		<input type="number" id="defensehp" class="minput" min="1" required tabindex="5">
