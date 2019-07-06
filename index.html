@@ -1660,9 +1660,9 @@ function multiswitch()
 		document.getElementById("defshiphp" + prevdefshiphp).style.border = "1px solid #A9A9A9";
 		document.getElementById("defshiphp" + prevdefshiphp).style.backgroundColor = "";
 		prevdefshiphp = 10;
-		attackerfill();
+		attackerfill.bind(document.querySelector("#selectattacker img"))();
 		document.getElementById("selectdefender").firstElementChild.onclick();
-		defenderfill();
+		defenderfill.bind(document.querySelector("#selectdefender img"))();
 		document.getElementById("unitselect").innerText = "Create Defender";
 		choosetype();
 		document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -2356,8 +2356,8 @@ function noretaldefault()
 }
 function loadelements()
 {
-	attackerfill();
-	defenderfill();
+	attackerfill.bind(document.querySelector("#selectattacker img"))();
+	defenderfill.bind(document.querySelector("#selectdefender img"))();
 	document.getElementById("main").style.visibility = "visible";
 	
 	var queryStr = window.location.search;
@@ -2567,7 +2567,7 @@ function refreshattackers()
       <img alt="Gaami" title="Gaami" src="Attackers/Gaami.png" onclick="attackerfill.bind(this)()">
 		</div>
 
-		<label class="container" id="attveterancy" onclick="attackerveteran()" style="display: none; position: absolute; margin-left: 4px;">
+		<label class="container" id="attveterancy" onclick="attackerveteran()" style="display: none; margin-left: 4px;">
 			<span style="margin-right: 28px">Veteran?</span>
 			<input type="checkbox" id="attvetbox" style="visibility: hidden">
 			<span class="checkmark"></span>
@@ -2627,7 +2627,7 @@ function refreshattackers()
 			<img alt="Nature Bunny" title="Nature Bunny" src="Defenders/Nature Bunny.png" onclick="defenderfill.bind(this)()">
 		</div>
 
-		<label class="container" id="defveterancy" onclick="defenderveteran()" style="display: none; position: absolute; margin-left: 4px;">
+		<label class="container" id="defveterancy" onclick="defenderveteran()" style="display: none; margin-left: 4px;">
 			<span style="margin-right: 28px;">Veteran?</span>
 			<input type="checkbox" id="defvetbox" style="visibility: hidden">
 			<span class="checkmark"></span>
