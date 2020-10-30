@@ -2426,3 +2426,5 @@ function refreshattackers()
 		}
 	}
 }
+
+window.onload = loadelements();
